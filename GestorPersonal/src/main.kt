@@ -1,53 +1,55 @@
 fun main() {
-    val usuarios = mutableListOf<User>()
-
     println("=== Gestor de Información Personal ===")
 
-    for (i in 1..3) {
-        println("\nUsuario #$i")
+    println("\nRegistro Usuario #1")
+    val usuario1 = registrarUsuario()
 
-        print("Nombre completo: ")
-        val nombre = readLine()?.trim().orEmpty()
+    println("\nRegistro Usuario #2")
+    val usuario2 = registrarUsuario()
 
-        var edad: Int
-        do {
-            print("Edad: ")
-            edad = readLine()?.toIntOrNull() ?: -1
-            if (edad <= 17) println("Menor de Edad.")
-        } while (edad <= 0)
+    println("\nRegistro Usuario #3")
+    val usuario3 = registrarUsuario()
 
-        var altura: Double
-        do {
-            print("Altura (m): ")
-            altura = readLine()?.toDoubleOrNull() ?: -1.0
-            if (altura <= 0) println("Altura inválida. Intente de nuevo.")
-        } while (altura <= 0)
+    println("\n=== Resumen de Usuarios ===")
+    println(usuario1.resumen())
+    println(usuario2.resumen())
+    println(usuario3.resumen())
+}
 
-        var peso: Double
-        do {
-            print("Peso (kg): ")
-            peso = readLine()?.toDoubleOrNull() ?: -1.0
-            if (peso <= 0) println("Peso inválido. Intente de nuevo.")
-        } while (peso <= 0)
+fun registrarUsuario(): User {
+    print("Nombre completo: ")
+    val nombre = readLine()?.trim().orEmpty()
 
-        var email: String
-        do {
-            print("Email: ")
-            email = readLine()?.trim().orEmpty()
-            if (!email.contains("@") || !email.contains(".")) {
-                println("Email inválido. Intente de nuevo.")
-            }
-        } while (!email.contains("@") || !email.contains("."))
-
-        print("Ciudad de residencia: ")
-        val ciudad = readLine()?.trim().orEmpty()
-
-        usuarios.add(User(nombre, edad, altura, peso, email, ciudad))
+    print("Edad: ")
+    var edad = readLine()?.toIntOrNull() ?: -1
+    if (edad <= 0) {
+        println("Edad inválida, se asignará 0.")
+        edad = 0
     }
 
-    println("\nResumen de Usuarios")
-    usuarios.forEachIndexed { index, user ->
-        println("\nUsuario #${index + 1}")
-        println(user.resumen())
+    print("Altura (m): ")
+    var altura = readLine()?.toDoubleOrNull() ?: -1.0
+    if (altura <= 0) {
+        println("Altura inválida, se asignará 0.0.")
+        altura = 0.0
     }
+
+    print("Peso (kg): ")
+    var peso = readLine()?.toDoubleOrNull() ?: -1.0
+    if (peso <= 0) {
+        println("Peso inválido, se asignará 0.0.")
+        peso = 0.0
+    }
+
+    print("Email: ")
+    var email = readLine()?.trim().orEmpty()
+    if (!(email.contains("@") && email.contains("."))) {
+        println("Email inválido, se dejará vacío.")
+        email = ""
+    }
+
+    print("Ciudad de residencia: ")
+    val ciudad = readLine()?.trim().orEmpty()
+
+    return User(nombre, edad, altura, peso, email, ciudad)
 }
